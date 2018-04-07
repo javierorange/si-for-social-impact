@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/tachyons.min.css">
+    <link rel="stylesheet" href="css/owl.carousel.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script>
+        $(document).ready(function(){
+
+            $(".hamburger-toggle").click(function(){
+                $("body").toggleClass("overlay-bg");
+                $(".mobile-expanded-nav").toggleClass("isOpen");
+                $(".hamburger-toggle").toggleClass("active");
+            });
+
+            $('.hero-slider .owl-carousel').owlCarousel({
+                items:1
+            });
+
+            var ourChallangesSlider = $('.our-challenges-slider');
+
+            ourChallangesSlider.owlCarousel({
+                center: true,
+                items:3,
+                margin:30,
+                nav: true,
+                dots: false,
+                responsive:{
+                    992:{
+                        items:4
+                    },
+                    600:{
+                        items:3,
+                        margin:20,
+                    },
+                    0:{
+                        items:2,
+                        nav: false,
+                        dots: true,
+                        margin: 15
+                    }
+                }
+            });
+
+            ourChallangesSlider.trigger('next.owl.carousel', [300]);
+
+
+            //Scroll to section
+            $(".menu-link").click(function() {
+                var offset = 20;
+                var section = $(this).attr("data-nav");
+                var sectionToGo = $("#"+section);//Offset of 20px
+                if(section !== "home"){
+                    $('html, body').animate({
+                        scrollTop: sectionToGo.offset().top + offset
+                    }, 800);
+                }
+            });
+
+
+            // Form Submit
+            $("body").on("submit", "#contact-form", function (e) {
+                e.preventDefault();
+                $("#send-button").text("Sending");
+                var serializedForm = $("#contact-form").serialize();
+                console.log(serializedForm);
+                $.ajax({
+                    type: "POST",
+                    url: "https://floating-atoll-45773.herokuapp.com/sendMail",
+                    beforeSend: function (xhr) {
+                        xhr.withCredentials = true;
+                    },
+                    data: serializedForm,
+                    success: function (msg) {
+                        console.log(msg);
+                        $("#form-holder").html("<h3>Thanks!</h3>")
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body class="avenir">
+
+    <!-- Header -->
+    <header class="main-header z-1">
+        <div class="ph3 ph3-m ph3-l relative">
+            <nav class="fixed-header-mobile pt3 pb3 pb0-ns pt3-ns dt w-100 mw8 center bb nav-border-b">
+                <div class="logo w-20 fl ml3 ml0-ns tl pa2-ns">
+                    <a href="#" class="no-underline">
+                        <img src="images/logo.png">
+                    </a>
+                </div>
+                <div class="fl w-80 pa3 pr0 tr menu-header desktop-menu dn db-m db-l">
+                    <a href="#" data-nav="home" class="menu-link f4 f4-m f3-ns b dib-ns pv2 ml3-m ml4-ns mt1-m">Home</a>
+                    <a href="#" data-nav="challenges" class="menu-link f4 f4-m f3-ns b dib-ns pv2 ml3-m ml4-ns mt1-m">Challenges</a>
+                    <a href="#" data-nav="values" class="menu-link f4 f4-m f3-ns b dib-ns pv2 ml3-m ml4-ns mt1-m">Values</a>
+                    <a href="#" data-nav="approach" class="menu-link f4 f4-m f3-ns b dib-ns pv2 ml3-m ml4-ns mt1-m">Approach</a>
+                    <a href="#" data-nav="contact" class="menu-link f4 f4-m f3-ns b dib-ns pv2 ml3-m ml4-ns mt1-m">Contact</a>
+                </div>
+                <div class="mobile-expanded">
+                    <div class="mobile-expanded-nav">
+                        <div class="hamburger-toggle">
+                            <span class="top"></span>
+                            <span class="middle"></span>
+                            <span class="bottom"></span>
+                        </div>
+                        <div class="ml3 pl1 mb5">
+                            <img src="" class="fl">
+                            <span class="f5 fw7 white dt-ca mt2">
+                                <img class="mobile-logo" src="images/logo.png" >
+                            </span>
+                        </div>
+                        <a href="" data-nav="home" class="menu-link w-100 f4 fw5 db white no-underline tl pb3">
+                            Home
+                        </a>
+                        <a href="" data-nav="challenges" class="menu-link w-100 f4 fw5 db white no-underline tl pb3">
+                            Challenges
+                        </a>
+                        <a href="" data-nav="values" class="menu-link w-100 f4 fw5 db pb3 white no-underline tl">
+                            Values
+                        </a>
+                        <a data-nav="approach" class="menu-link w-100 f4 fw5 db white no-underline pb3 tl">
+                            Approach
+                        </a>
+                        <a data-nav="contact" class="menu-link w-100 f4 fw5 db white no-underline pb2 tl">
+                            Contact
+                        </a>
+                    </div>
+                    <div class="bg-overlay">
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <!-- / Header -->
+
+    <!-- Hero Slider -->
+    <div class="hero-section relative" id="home">
+        <div class="vh-75-l dt-l w-100">
+            <div class="dtc-l v-mid-l">
+                <div class="pt3 pb3 pb0-ns pt3-ns w-100 mw8 center">
+                    <div class="hero-slider v-mid tc ph3 ph4-l dib w-100 mt0-ns relative">
+                        <div class="hero-slider-text w-100 fl z-1 mb4 mb0-l tc tr-l">
+                            <div class="w-100 w-50-l">
+                                <h1 class="f2 f2-m f1-l mb0 mt2-m mb3">We make <br>social impact</h1>
+                                <div class="lh-copy-l f5 fw5 mt0">
+                                    We partner with communities, governments, institutions and individuals to make a positive change that addresses a pressing social challenges.
+                                    One challenge at a time.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="hero-slider-images w-100 fl z-0 mb4 mb0-l tc tr-l relative">
+                            <div class="owl-carousel">
+                                <img class="dib" src="images/heros/hero1.png" alt="">
+                                <img class="dib" src="images/heros/hero2.png" alt="">
+                                <img class="dib" src="images/heros/hero3.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="ball-loader">
+                    <div class="ball-loader-ball ball1"></div>
+                    <div class="ball-loader-ball ball2"></div>
+                    <div class="ball-loader-ball ball3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / Hero Slider -->
+
+    <div class="our-challenges-section pb5 pb6-m pb6-l relative gradient-h tc" id="challenges">
+        <h3 class="tc f2 f1-m f1-l mb3 white pt5 pb3 pt6-m pt6-l">Our challenges</h3>
+        <div class="cf db w-100 center">
+            <div class="our-challenges-slider owl-carousel">
+                <article class="our-challenges-item fl center bg-white mv3 ba br4 b--black-10 overflow-hidden pt4">
+                    <img src="images/challenges/activepathways.jpg" class="db bg-center">
+                    <div class="ph2 ph0-ns pb3 link db">
+                        <h3 class="f5 f4-ns mb3 fw4">Active Pathways</h3>
+                        <a class="f4 grow no-underline br-pill ph4 pv2 mb2 dib white fw6 mt4" href="active_pathways.html">Start here</a>
+                    </div>
+                </article>
+                <article class="our-challenges-item fl center bg-white mv3 ba br4 b--black-10 overflow-hidden pt4">
+                    <img src="images/challenges/M2020.png" class="db bg-center">
+                    <div class="ph2 ph0-ns pb3 link db">
+                        <h3 class="f5 f4-ns mb3 fw4">Madrid 2020</h3>
+                        <a class="f4 grow no-underline br-pill ph4 pv2 mb2 dib white fw6 mt4" href="madrid_2020.html">Start here</a>
+                    </div>
+                </article>
+                <article class="our-challenges-item fl center bg-white mv3 ba br4 b--black-10 overflow-hidden pt4">
+                    <img src="images/challenges/moodmix.png" class="db bg-center">
+                    <div class="ph2 ph0-ns pb3 link db">
+                        <h3 class="f5 f4-ns mb3 fw4">Pack services</h3>
+                        <a class="f4 grow no-underline br-pill ph4 pv2 mb2 dib white fw6 mt4" href="pack_services.html">Start here</a>
+                    </div>
+                </article>
+                <article class="our-challenges-item fl center bg-white mv3 ba br4 b--black-10 overflow-hidden pt4">
+                    <img src="images/challenges/Walky.png" class="db bg-center">
+                    <div class="ph2 ph0-ns pb3 link db">
+                        <h3 class="f5 f4-ns mb3 fw4">Walky</h3>
+                        <a class="f4 grow no-underline br-pill ph4 pv2 mb2 dib white fw6 mt4" href="walky.html">Start here</a>
+                    </div>
+                </article>
+                <article class="our-challenges-item fl center bg-white mv3 ba br4 b--black-10 overflow-hidden pt4">
+                    <img src="images/challenges/We%20connect.png" class="db bg-center">
+                    <div class="ph2 ph0-ns pb3 link db">
+                        <h3 class="f5 f4-ns mb3 fw4">Connecting the elderly with Caregivers</h3>
+                        <a class="f4 grow no-underline br-pill ph4 pv2 mb2 dib white fw6 mt4" href="connecting.html">Start here</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- VALUES SECTION START -->
+    <section class="contact cf w-100 ph0 ph6-l pb5 avenir" id="values">
+        <h3 class="tc f2 f1-m f1-l mb3">Values</h3>
+        <p class="w-60 tc ma0 center mb4 lh-title">
+            Our values reflect who we are and what really matters to us. They are a reflection of how we live our lives and what we stand for.
+        </p>
+        <div class="cf w-100">
+
+            <div class="cf w-100 mt4">
+                <div class="w-80 w-50-ns fl pt5-l pt5-m pt2">
+                    <h1 class="f4 f1-l f1-m navy w-70-l b tr fr mt0-ns mb2 right--1 right--2-l relative">
+                        01
+                    </h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tr pr2 pr5-l pr5-m mt1">
+                        <h3 class="relative values-title values-title--right">Being always positive</h3>
+                        The way you see the world is a matter of perspective and attitude. We choose to see the bright side, to think that for every wicked problem there are plenty of solutions.
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns fl mt4 mt0-ns h5 h4-ns h5-l h5-m stretching-img-small cover" style="background-image: url('images/values/value1.png')"></div>
+            </div>
+
+            <div class="cf w-100 mt4">
+                <div class="w-80 w-50-ns fr pt5-l pt5-m pt2 dn-ns">
+                    <h1 class="f4 f1-l f1-m navy w-90-l tl b fl mt0-ns mb2 left--1 left--2-l relative">02</h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tl pr2 pr5-l pr5-m mt1 pl5">
+                        <h3 class="relative values-title values-title--left">Seeking Awesomeness</h3>
+                        How can we make people feel awesome? What are people’s needs? How can we help them make progress in their lives? These questions drive us forward.
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns fl mt4 mt0-ns h5 h4-ns h5-l h5-m stretching-img-small cover" style="background-image: url('images/values/value2.png');"></div>
+                <div class="w-80 w-50-ns fr pt5-l pt5-m pt2 dn db-ns">
+                    <h1 class="f4 f1-l f1-m navy w-90-l tl b fl mt0-ns mb2 left--1 left--2-l relative">02</h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tl pr2 pr5-l pr5-m mt1 pl5">
+                        <h3 class="relative values-title values-title--left">Seeking Awesomeness</h3>
+                        How can we make people feel awesome? What are people’s needs? How can we help them make progress in their lives? These questions drive us forward.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cf w-100 mt4">
+                <div class="w-80 w-50-ns fl pt5-l pt5-m pt2">
+                    <h1 class="f4 f1-l f1-m navy w-70-l b tr fr mt0-ns mb2 right--1 right--2-l relative">
+                        03
+                    </h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tr pr2 pr5-l pr5-m mt1">
+                        <h3 class="relative values-title values-title--right">Designing for you</h3>
+                        No one is average. Everyone is unique. We listen carefully and deeply to understand people’s own context without judgement.
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns fl mt4 mt0-ns h5 h4-ns h5-l h5-m stretching-img-small cover" style="background-image: url('images/values/value3.png')"></div>
+            </div>
+
+            <div class="cf w-100 mt4">
+                <div class="w-80 w-50-ns fr pt5-l pt5-m pt2 dn-ns">
+                    <h1 class="f4 f1-l f1-m navy w-90-l tl b fl mt0-ns mb2 left--1 left--2-l relative">04</h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tl pr2 pr5-l pr5-m mt1 pl5">
+                        <h3 class="relative values-title values-title--left">Thriving together</h3>
+                        We embrace diversity and bring people with different set of values, cultures and personalities together to spark creativity and deeper insights.
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns fl mt4 mt0-ns h5 h4-ns h5-l h5-m stretching-img-small cover" style="background-image: url('images/values/value4.png');"></div>
+                <div class="w-80 w-50-ns fr pt5-l pt5-m pt2 dn db-ns">
+                    <h1 class="f4 f1-l f1-m navy w-90-l tl b fl mt0-ns mb2 left--1 left--2-l relative">04</h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tl pr2 pr5-l pr5-m mt1 pl5">
+                        <h3 class="relative values-title values-title--left">Thriving together</h3>
+                        We embrace diversity and bring people with different set of values, cultures and personalities together to spark creativity and deeper insights.
+                    </div>
+                </div>
+            </div>
+
+            <div class="cf w-100 mt4">
+                <div class="w-80 w-50-ns fl pt5-l pt5-m pt2">
+                    <h1 class="f4 f1-l f1-m navy w-70-l b tr fr mt0-ns mb2 right--1 right--2-l relative">
+                        05
+                    </h1>
+                    <div class="read-more f6 f5-l f5-m fw5 fl w-100  tr pr2 pr5-l pr5-m mt1">
+                        <h3 class="relative values-title values-title--right">We take fun seriously</h3>
+                        Fun makes us feel more alive. We love sense of humour, smiles and laughs.
+                    </div>
+                </div>
+                <div class="w-100 w-50-ns fl mt4 mt0-ns h5 h4-ns h5-l h5-m stretching-img-small cover" style="background-image: url('images/values/value5.png')"></div>
+            </div>
+
+
+        </div>
+    </section>
+    <!-- VALUES SECTION END -->
+
+    <!-- APPROACH SECTION START -->
+    <section class="approach cf w-100 ph0 ph6-l pb5 avenir" id="approach">
+        <h3 class="tc f2 f1-m f1-l mb3">Approach</h3>
+        <p class="w-50 tc ma0 center mb4 lh-title">
+            We believe that to solve challenges, you need to start
+            with people. We innovate, design and develop
+            human-centered solutions that make a social impact.
+        </p>
+        <div class="cf w-70 center">
+            <div class="fl w-100-m w-third-ns pa2">
+                <div class="approach-image tc-m">
+                    <img src="images/approach/approach1.jpg" alt="">
+                </div>
+                <div class="approach-text-content relative mt4">
+                    <h3 class="mb0">Discovering</h3>
+                    <p class="mt2">
+                        We start by learning about the audience for whom we are designing by researching user needs and motivations. It help us to understand how to approach the challenge and why it matters.
+                    </p>
+                </div>
+            </div>
+            <div class="fl w-100-m w-third-ns pa2">
+                <div class="approach-image tc-m">
+                    <img src="images/approach/approach2.jpg" alt="">
+                </div>
+                <div class="approach-text-content relative mt4">
+                    <h3 class="mb0">Exploring</h3>
+                    <p class="mt2">
+                        We creatively generate volumes and variety of ideas that could evolve into solutions to our challenge.
+                    </p>
+                </div>
+            </div>
+            <div class="fl w-100-m w-third-ns pa2">
+                <div class="approach-image tc-m">
+                    <img src="images/approach/approach3.jpg" alt="">
+                </div>
+                <div class="approach-text-content relative mt4">
+                    <h3 class="mb0">Delivering</h3>
+                    <p class="mt2">
+                        We learn by doing. We visualize possible solutions by trying them out. We create wireframes, interactive designs and prototypes. We test them with users and we iterate in short cycles to continuously improve the design.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- APPROACH SECTION END -->
+
+    <!-- CONTACT SECTION START -->
+    <section class="contact cf w-100 ph0 ph6-l pb5 avenir" id="contact">
+        <h3 class="tc f2 f1-m f1-l mb3">Contact</h3>
+        <p class="w-60 tc ma0 center mb4 lh-title">
+            Do you have a challenge? Do you dream of making a positive impact?
+            We’ll love to hear from you. We’ll love to start a conversation with you.
+            Contact us and we will reach you shortly.
+        </p>
+        <div class="cf w-100 mt5">
+            <div class="fl w-30-l w-100-m ph5-m ph4 ph1-l">
+                <div class="contact-text relative">
+                    <h3 class="mt0">We are SI</h3>
+                    <p>
+                        A group of people with a mission. Make this world a better place. We partner with communities, governments, institutions and individuals to make a positive change that addresses pressing social challenges. One challenge at a time.
+                    </p>
+                </div>
+            </div>
+            <div class="fl w-70-l w-100-m ph5-m pt4-m ph4 ph1-l" id="form-holder">
+                <form id="contact-form">
+                    <div class="cf mb3">
+                        <label class="fl w-10-l dib w-100-m" for="contact-name">
+                            Name
+                        </label>
+                        <div class="fl w-90 dib">
+                            <input class="w-100" type="text" name="name" id="contact-name">
+                        </div>
+                    </div>
+                    <div class="cf mb3">
+                        <label class="fl w-10-l dib w-100-m" for="contact-email">
+                            E-Mail
+                        </label>
+                        <div class="fl w-90 dib">
+                            <input class="w-100" type="email" name="email" id="contact-email">
+                        </div>
+                    </div>
+                    <div class="cf mb3">
+                        <label class="fl w-10-l dib w-100-m" for="contact-phone">
+                            Phone
+                        </label>
+                        <div class="fl w-90 dib">
+                            <input class="w-100" type="text" name="phone" id="contact-phone">
+                        </div>
+                    </div>
+                    <div class="cf">
+                        <label class="fl w-10-l dib w-100-m" for="contact-question">
+                            Question
+                        </label>
+                        <div class="fl w-90 dib">
+                            <textarea class="w-100" cols="30" rows="10" name="question" id="contact-question"></textarea>
+                        </div>
+                    </div>
+                    <div class="cf w-100 tc">
+                        <button id="send-button" type="submit" class="fr-l fn mt4 btn-main dib">Send Now</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <!-- CONTACT SECTION END -->
+
+
+    <!-- FOOTER START-->
+    <footer class="avenir">
+        <div class="cf w-100">
+            <div class="fr w-50 footer-text pt6 pb6">
+                <h3 class="ma0 pa0">SI is an initiative of: SMARTplayds Limited</h3>
+                <p class="lh-copy mt1">
+                    Collaborate Works - Steward House 14 Commercial Way <br>
+                    Woking GU21 6ET <br>
+                    +44 - 203 695 2189 <br>
+                    Registered in England and Wales 9462175
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- FOOTER END -->
+
+
+
+
+</body>
+</html>
